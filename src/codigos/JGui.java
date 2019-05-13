@@ -5,7 +5,9 @@
  */
 package codigos;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimerTask;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -46,8 +48,6 @@ public class JGui extends javax.swing.JFrame {
         lblEstiloLivre = new javax.swing.JLabel();
         lblInciar = new javax.swing.JLabel();
         lblReiniciar = new javax.swing.JLabel();
-        lblOpcoes = new javax.swing.JLabel();
-        lblFechar = new javax.swing.JLabel();
         pnlOpcoes = new javax.swing.JPanel();
         lblRoxo = new javax.swing.JLabel();
         lblAmarelo = new javax.swing.JLabel();
@@ -57,7 +57,9 @@ public class JGui extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTarefa = new javax.swing.JLabel();
+        lblOpcoes = new javax.swing.JLabel();
+        lblFechar = new javax.swing.JLabel();
         lblCronometro = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         campoTexto = new javax.swing.JTextArea();
@@ -65,15 +67,20 @@ public class JGui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JPomodoro");
         setBackground(new java.awt.Color(255, 204, 153));
+        setMaximumSize(null);
+        setMinimumSize(new java.awt.Dimension(473, 332));
+        setResizable(false);
 
         painelOpcoes.setBackground(new java.awt.Color(204, 204, 255));
 
         lblEstiloLivre.setFont(new java.awt.Font("Rachana", 0, 14)); // NOI18N
         lblEstiloLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEstiloLivre.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\JPomodoro\\img\\pencil-writing-on-a-paper-sheet_icon-icons.com_70422.png")); // NOI18N
 
         lblInciar.setBackground(new java.awt.Color(204, 204, 255));
         lblInciar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblInciar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInciar.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\JPomodoro\\img\\icons8-reproduzir-50.png")); // NOI18N
         lblInciar.setText("Pomodoro");
         lblInciar.setOpaque(true);
         lblInciar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -85,31 +92,12 @@ public class JGui extends javax.swing.JFrame {
         lblReiniciar.setBackground(new java.awt.Color(204, 204, 255));
         lblReiniciar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblReiniciar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReiniciar.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\JPomodoro\\img\\1492790919-81power_84209.png")); // NOI18N
         lblReiniciar.setText("Descanço");
         lblReiniciar.setOpaque(true);
         lblReiniciar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblReiniciarMouseClicked(evt);
-            }
-        });
-
-        lblOpcoes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblOpcoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblOpcoes.setText(" ...");
-        lblOpcoes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblOpcoesMouseClicked(evt);
-            }
-        });
-
-        lblFechar.setBackground(new java.awt.Color(255, 0, 0));
-        lblFechar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lblFechar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFechar.setText("X");
-        lblFechar.setOpaque(true);
-        lblFechar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblFecharMouseClicked(evt);
             }
         });
 
@@ -183,56 +171,77 @@ public class JGui extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTarefa.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblTarefa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTarefa.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\JPomodoro\\img\\calendar-with-a-clock-time-tools_icon-icons.com_56831.png")); // NOI18N
+
+        lblOpcoes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblOpcoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblOpcoes.setText(" ...");
+        lblOpcoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblOpcoesMouseClicked(evt);
+            }
+        });
+
+        lblFechar.setBackground(new java.awt.Color(255, 0, 0));
+        lblFechar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblFechar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFechar.setText("X");
+        lblFechar.setOpaque(true);
+        lblFechar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblFecharMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout painelOpcoesLayout = new javax.swing.GroupLayout(painelOpcoes);
         painelOpcoes.setLayout(painelOpcoesLayout);
         painelOpcoesLayout.setHorizontalGroup(
             painelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelOpcoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblInciar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblEstiloLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(painelOpcoesLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(pnlOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(painelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelOpcoesLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(pnlOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelOpcoesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblInciar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblEstiloLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         painelOpcoesLayout.setVerticalGroup(
             painelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelOpcoesLayout.createSequentialGroup()
                 .addGroup(painelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(painelOpcoesLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(painelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblInciar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(painelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                                .addComponent(lblTarefa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                                 .addComponent(lblReiniciar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblEstiloLivre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(lblEstiloLivre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(lblOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(144, 144, 144))
         );
 
-        pnlOpcoes.setVisible(false);
+        pnlOpcoes.setVisible(true);
 
         lblCronometro.setBackground(new java.awt.Color(204, 204, 255));
         lblCronometro.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        lblCronometro.setForeground(new java.awt.Color(0, 0, 0));
         lblCronometro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCronometro.setText("00:00:00");
         lblCronometro.setOpaque(true);
@@ -241,24 +250,29 @@ public class JGui extends javax.swing.JFrame {
         campoTexto.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         campoTexto.setRows(5);
         campoTexto.setLineWrap(true);
+        campoTexto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoTextoKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(campoTexto);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(painelOpcoes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 476, Short.MAX_VALUE)
             .addComponent(lblCronometro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(painelOpcoes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(painelOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCronometro, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
+                .addComponent(lblCronometro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -332,6 +346,27 @@ public class JGui extends javax.swing.JFrame {
         lblCronometro.setText("00:00:00");
     }//GEN-LAST:event_lblReiniciarMouseClicked
 
+    private void campoTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTextoKeyPressed
+        // tecla F1
+        if (evt.getKeyCode() == 112) {
+            // formato da data
+            Date d = new Date();            
+            String dStr = java.text.DateFormat.getDateInstance(DateFormat.MEDIUM).format(d);      
+            SimpleDateFormat horaAtual = new SimpleDateFormat("HH:mm:ss");
+            
+            // thread para rodar multitarefas
+            Thread test = new Thread((Runnable) horaAtual);
+            
+            campoTexto.setText(dStr+(" ")+horaAtual.format(d));
+              
+        }
+        if (evt.getKeyCode() == 113) {
+            campoTexto.setText("\n [ ] ");
+            
+        }
+        
+    }//GEN-LAST:event_campoTextoKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -370,7 +405,6 @@ public class JGui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea campoTexto;
     private javax.swing.ButtonGroup grupoCores;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -386,6 +420,7 @@ public class JGui extends javax.swing.JFrame {
     private javax.swing.JLabel lblOpcoes;
     private javax.swing.JLabel lblReiniciar;
     private javax.swing.JLabel lblRoxo;
+    private javax.swing.JLabel lblTarefa;
     private javax.swing.JPanel painelOpcoes;
     private javax.swing.JPanel pnlOpcoes;
     // End of variables declaration//GEN-END:variables
