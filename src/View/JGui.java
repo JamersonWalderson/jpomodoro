@@ -1,9 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * http://www.gqferreira.com.br/artigos/ver/mvc-com-java-desktop-parte3
  */
-package codigos;
+package View;
+import Model.Cronometro;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,15 +16,10 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author jamer
+ * @author jamesw.97
  */
 public class JGui extends javax.swing.JFrame {
-    java.util.Timer timer1 = new java.util.Timer();
-    public int tempoMinutos = 0;
-    public int tempoSegundos = 0;
-    public int delay = 1000;   // funcao Timer
-    public int interval = 1000;  // funcao Timer
-    public boolean timerAtivado = false;
+    
     public boolean painelOp;
     /**
      * Creates new form JGui
@@ -67,7 +61,6 @@ public class JGui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JPomodoro");
         setBackground(new java.awt.Color(255, 204, 153));
-        setMaximumSize(null);
         setMinimumSize(new java.awt.Dimension(473, 332));
         setResizable(false);
 
@@ -247,7 +240,7 @@ public class JGui extends javax.swing.JFrame {
         lblCronometro.setOpaque(true);
 
         campoTexto.setColumns(20);
-        campoTexto.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        campoTexto.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
         campoTexto.setRows(5);
         campoTexto.setLineWrap(true);
         campoTexto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -306,30 +299,12 @@ public class JGui extends javax.swing.JFrame {
     }//GEN-LAST:event_lblAmareloMouseClicked
 
     private void lblInciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInciarMouseClicked
-        timerAtivado = true; // programa em funcionamento
+        /* Trabalhando neste bloco */
         
-        timer1.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    /* System.out.println("Debugg btnIniciar"); */
-                    /* Converte o valor inteiro em String para exibir no label */
-                    String tempoConvSegundos = String.valueOf(tempoSegundos);
-                    String tempoConvMinutos = String.valueOf(tempoMinutos);
-                    tempoSegundos++;
-                    lblCronometro.setText("00:"+tempoConvMinutos+":"+tempoConvSegundos);
-                    if (tempoSegundos == 60) {
-                        tempoMinutos++;
-                        tempoSegundos = 0;
-                    
-                    }
-                    if (tempoMinutos == 25) {
-                        JOptionPane.showMessageDialog(null, "Ciclo esgotado\n! Descanse durante 5 minutos e volte as atividades.", "Você precisa fazer uma pausa", JOptionPane.ERROR_MESSAGE, null);
-                        timer1.cancel();
-                        timer1.purge();
-                    }
-                    
-                }
-            
-        }, delay, interval);          
+        Cronometro modelCronometro = new Cronometro();
+        modelCronometro.iniciarCronometro();
+        
+                  
         
         
     }//GEN-LAST:event_lblInciarMouseClicked
@@ -339,11 +314,8 @@ public class JGui extends javax.swing.JFrame {
     }//GEN-LAST:event_lblFecharMouseClicked
 
     private void lblReiniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReiniciarMouseClicked
-        timerAtivado = false; // desligado
-        timer1.cancel();
-        tempoSegundos = 0;
-        tempoMinutos = 0;
-        lblCronometro.setText("00:00:00");
+        /* Trabalhando nisso */
+        
     }//GEN-LAST:event_lblReiniciarMouseClicked
 
     private void campoTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTextoKeyPressed
