@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Controller.ControllerJGui;
@@ -24,7 +19,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author jamer
+ * @author github jamesw.97
  */
 public class JGui extends javax.swing.JFrame {
     private ControllerJGui controller;
@@ -339,6 +334,10 @@ public class JGui extends javax.swing.JFrame {
         
         pomodoro = new Pomodoro();
         pomodoro.iniciar();
+        /* 
+        * Da linha 346 a 353 não editar, favor
+        * Só deus sabe como isso está funcionando
+        */
         p = new Thread(() ->{
             while(pomodoroStatus){ //status true quando aperta o botão iniciar
                 lbContadorTempo.setText("00:"+pomodoro.getTempo()); // altera o JLabel
