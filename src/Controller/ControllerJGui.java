@@ -1,6 +1,5 @@
 package Controller;
 
-import View.JGui;
 import Model.NovaTarefa;
 import Model.Dicas;
 import Model.Pomodoro;
@@ -19,14 +18,13 @@ import javax.swing.event.ChangeListener;
  * 
  */
 public class ControllerJGui {
-    private JGui view;
     private NovaTarefa modelTarefa;
     private Dicas dica;
     private Pomodoro pomodoro;
     
     public ControllerJGui(NovaTarefa novaTarefa) {
         this.modelTarefa = modelTarefa;
-        this.view = new JGui();
+
         
     }
     public ControllerJGui() {
@@ -34,13 +32,6 @@ public class ControllerJGui {
         
     }
     
- /*   
-    public String btNovaTarefa(String tarefa) {
-        modelTarefa.setTarefa(tarefa);      
-        return modelTarefa.getTarefa();
-        
-    }
-*/
     public String dica(int numRandom) {
         dica = new Dicas();        
         return dica.mostrarDicas(numRandom);

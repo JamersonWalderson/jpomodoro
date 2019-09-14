@@ -349,6 +349,7 @@ public class JGui extends javax.swing.JFrame {
         });
         p.start();
         btCronometro.setEnabled( false );
+        btDescanso.setEnabled ( false );
         
     }//GEN-LAST:event_btPomodoroActionPerformed
 
