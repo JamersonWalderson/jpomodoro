@@ -362,6 +362,8 @@ public class JGui extends javax.swing.JFrame {
             p.interrupt();
             btCronometro.setEnabled( true );
             btPomodoro.setEnabled ( true );
+            btDescanso.setEnabled ( true );
+            
         }
         
         if (cronometroStatus) {
