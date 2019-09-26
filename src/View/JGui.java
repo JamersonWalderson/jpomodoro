@@ -69,7 +69,9 @@ public class JGui extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setName("JPomodoro"); // NOI18N
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(570, 343));
         setSize(new java.awt.Dimension(0, 0));
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -219,7 +221,7 @@ public class JGui extends javax.swing.JFrame {
         lbVersao.setBackground(new java.awt.Color(255, 255, 255));
         lbVersao.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lbVersao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbVersao.setText("1.0.0 Beta");
+        lbVersao.setText("1.0.1 Beta");
 
         btCronometro.setBackground(new java.awt.Color(204, 255, 204));
         btCronometro.setText("Cronômetro");
