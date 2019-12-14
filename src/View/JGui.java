@@ -15,14 +15,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.util.Random;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
 /**
- *
+ * Javadoc
  * @author github jamesw.97
+ * Classe principal do JPomodoro
  */
 public class JGui extends javax.swing.JFrame {
     private ControllerJGui controller;
+    DefaultListModel model = new DefaultListModel();  // para o JList
     private Pomodoro pomodoro;
     private Cronometro cronometro;
     private Descanso descanso;
@@ -31,15 +34,13 @@ public class JGui extends javax.swing.JFrame {
     boolean cronometroStatus = false;
     boolean pomodoroStatus = false;
     boolean descansoStatus = false;
-    private String criandoTarefa; // variavel temporaria
+    private String criandoTarefa = ""; // variavel temporaria
+    private int xMouse;
+    private int yMouse;
     Thread p = null;
     Thread c = null;
     Thread d = null;
-    int xMouse;
-    int yMouse;
-    //JLabel lbTarefa;
     
-    //  Construtor
     public JGui() {
         initComponents();
         
@@ -51,27 +52,27 @@ public class JGui extends javax.swing.JFrame {
         pnPrincipal = new javax.swing.JPanel();
         pnVerTempo = new javax.swing.JPanel();
         lbContadorTempo = new javax.swing.JLabel();
+        lbNomeProjeto = new javax.swing.JLabel();
         pnTarefas = new javax.swing.JPanel();
-        lbTarefa = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jlAtividades = new javax.swing.JList<>();
         pnDicasSugestoes = new javax.swing.JPanel();
         lbTagDica = new javax.swing.JLabel();
         lbSugestao = new javax.swing.JLabel();
+        btPomodoro = new javax.swing.JButton();
+        btCronometro = new javax.swing.JButton();
+        btDescanso = new javax.swing.JButton();
         pnOpcoes = new javax.swing.JPanel();
         btPausa = new javax.swing.JButton();
-        btNovaTarefa = new javax.swing.JButton();
-        btDescanso = new javax.swing.JButton();
-        btPomodoro = new javax.swing.JButton();
-        lbNomeProjeto = new javax.swing.JLabel();
-        lbVersao = new javax.swing.JLabel();
-        btCronometro = new javax.swing.JButton();
-        Notas = new javax.swing.JButton();
         btEncerrar = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
+        btMenu = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setName("JPomodoro"); // NOI18N
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(570, 343));
         setSize(new java.awt.Dimension(0, 0));
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -86,6 +87,11 @@ public class JGui extends javax.swing.JFrame {
 
         pnPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         pnPrincipal.setPreferredSize(new java.awt.Dimension(287, 274));
+        pnPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnPrincipalMouseClicked(evt);
+            }
+        });
 
         pnVerTempo.setBackground(new java.awt.Color(255, 255, 255));
         pnVerTempo.setPreferredSize(new java.awt.Dimension(177, 221));
@@ -96,20 +102,29 @@ public class JGui extends javax.swing.JFrame {
         lbContadorTempo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbContadorTempo.setText("00:00:00");
 
+        lbNomeProjeto.setText("JPomodoro v2019.11.01-1");
+
         javax.swing.GroupLayout pnVerTempoLayout = new javax.swing.GroupLayout(pnVerTempo);
         pnVerTempo.setLayout(pnVerTempoLayout);
         pnVerTempoLayout.setHorizontalGroup(
             pnVerTempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnVerTempoLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(lbContadorTempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(48, 48, 48))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnVerTempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnVerTempoLayout.createSequentialGroup()
+                        .addComponent(lbNomeProjeto)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnVerTempoLayout.createSequentialGroup()
+                        .addComponent(lbContadorTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71))))
         );
         pnVerTempoLayout.setVerticalGroup(
             pnVerTempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnVerTempoLayout.createSequentialGroup()
-                .addComponent(lbContadorTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(lbNomeProjeto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(lbContadorTempo))
         );
 
         pnTarefas.setBackground(new java.awt.Color(255, 255, 255));
@@ -118,20 +133,38 @@ public class JGui extends javax.swing.JFrame {
                 pnTarefasMouseClicked(evt);
             }
         });
-        pnTarefas.setLayout(new javax.swing.BoxLayout(pnTarefas, javax.swing.BoxLayout.PAGE_AXIS));
 
-        lbTarefa.setBackground(new java.awt.Color(204, 255, 204));
-        lbTarefa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbTarefa.setText("00:58 | Estudar: Método lambda");
-        //lbTarefa.setVisible(false);
-        lbTarefa.addMouseListener(new java.awt.event.MouseAdapter() {
+        jScrollPane1.setBorder(null);
+
+        jlAtividades.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "1 - Pense nas atividades que serão realizadas.", "2 - Clique no botão verde.", "3 - Clique na parte branca.", "4 - Adicione suas tarefas.", "5 - Escolha Pomodoro ou Cronometro.", "6 - Evite distrações, e foque em concluir a tarefa.", "7 - Quando concluir clique duas vezes sobre a tarefa.", "8 - Após 25 minutos clique em descanso.", "9 - Aproveite o tempo para relaxar.", "10 - Depois dos 5 minutos clique novamente em Pomodoro.", "11 - Parabéns você concluiu um ciclo." };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jlAtividades.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbTarefaMouseClicked(evt);
+                jlAtividadesMouseClicked(evt);
             }
         });
-        lbTarefa.setVisible(false);
-        pnTarefas.add(lbTarefa);
+        jScrollPane1.setViewportView(jlAtividades);
 
+        javax.swing.GroupLayout pnTarefasLayout = new javax.swing.GroupLayout(pnTarefas);
+        pnTarefas.setLayout(pnTarefasLayout);
+        pnTarefasLayout.setHorizontalGroup(
+            pnTarefasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnTarefasLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnTarefasLayout.setVerticalGroup(
+            pnTarefasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnTarefasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        pnDicasSugestoes.setBackground(new java.awt.Color(204, 204, 204));
         pnDicasSugestoes.setOpaque(false);
 
         lbTagDica.setText("Dica:");
@@ -159,75 +192,22 @@ public class JGui extends javax.swing.JFrame {
                 .addComponent(lbTagDica, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout pnPrincipalLayout = new javax.swing.GroupLayout(pnPrincipal);
-        pnPrincipal.setLayout(pnPrincipalLayout);
-        pnPrincipalLayout.setHorizontalGroup(
-            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-            .addComponent(pnVerTempo, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-        );
-        pnPrincipalLayout.setVerticalGroup(
-            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnPrincipalLayout.createSequentialGroup()
-                .addComponent(pnVerTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(pnTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-
-        pnOpcoes.setBackground(new java.awt.Color(165, 165, 255));
-
-        btPausa.setBackground(new java.awt.Color(255, 204, 204));
-        btPausa.setText("Encerrar");
-        btPausa.setBorderPainted(false);
-        btPausa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPausaActionPerformed(evt);
-            }
-        });
-
-        btNovaTarefa.setBackground(new java.awt.Color(204, 204, 255));
-        btNovaTarefa.setText("Nova Tarefa");
-        btNovaTarefa.setBorderPainted(false);
-        btNovaTarefa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btNovaTarefaActionPerformed(evt);
-            }
-        });
-
-        btDescanso.setBackground(new java.awt.Color(232, 255, 232));
-        btDescanso.setText("Modo Descanso");
-        btDescanso.setBorderPainted(false);
-        btDescanso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btDescansoActionPerformed(evt);
-            }
-        });
-
         btPomodoro.setBackground(new java.awt.Color(204, 255, 204));
-        btPomodoro.setText("Pomodoro");
+        btPomodoro.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\apple.png")); // NOI18N
         btPomodoro.setBorderPainted(false);
+        btPomodoro.setOpaque(false);
         btPomodoro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPomodoroActionPerformed(evt);
             }
         });
 
-        lbNomeProjeto.setText("JPomodoro");
-
-        lbVersao.setBackground(new java.awt.Color(255, 255, 255));
-        lbVersao.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lbVersao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbVersao.setText("1.0.1 Beta");
-
         btCronometro.setBackground(new java.awt.Color(204, 255, 204));
-        btCronometro.setText("Cronômetro");
+        btCronometro.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\ico-cronometro.png")); // NOI18N
         btCronometro.setBorderPainted(false);
         btCronometro.setMaximumSize(new java.awt.Dimension(81, 23));
         btCronometro.setMinimumSize(new java.awt.Dimension(81, 23));
+        btCronometro.setOpaque(false);
         btCronometro.setPreferredSize(new java.awt.Dimension(81, 23));
         btCronometro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,21 +215,100 @@ public class JGui extends javax.swing.JFrame {
             }
         });
 
-        Notas.setBackground(new java.awt.Color(204, 204, 255));
-        Notas.setText("Notas");
-        Notas.setBorderPainted(false);
-        Notas.addActionListener(new java.awt.event.ActionListener() {
+        btDescanso.setBackground(new java.awt.Color(232, 255, 232));
+        btDescanso.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\single-couch.png")); // NOI18N
+        btDescanso.setBorderPainted(false);
+        btDescanso.setOpaque(false);
+        btDescanso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NotasActionPerformed(evt);
+                btDescansoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnPrincipalLayout = new javax.swing.GroupLayout(pnPrincipal);
+        pnPrincipal.setLayout(pnPrincipalLayout);
+        pnPrincipalLayout.setHorizontalGroup(
+            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnPrincipalLayout.createSequentialGroup()
+                .addGroup(pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnPrincipalLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(btPomodoro, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btCronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
+                .addContainerGap())
+            .addComponent(pnVerTempo, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+        );
+        pnPrincipalLayout.setVerticalGroup(
+            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnPrincipalLayout.createSequentialGroup()
+                .addComponent(pnVerTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btPomodoro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCronometro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(pnTarefas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnOpcoes.setBackground(new java.awt.Color(102, 102, 255));
+
+        btPausa.setBackground(new java.awt.Color(255, 204, 204));
+        btPausa.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\1486348534-music-pause-stop-control-play_80459.png")); // NOI18N
+        btPausa.setBorderPainted(false);
+        btPausa.setOpaque(false);
+        btPausa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPausaActionPerformed(evt);
             }
         });
 
         btEncerrar.setBackground(new java.awt.Color(255, 153, 153));
         btEncerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btEncerrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\Nova Pasta\\icons8_delete_sign_32px.png")); // NOI18N
         btEncerrar.setBorderPainted(false);
+        btEncerrar.setOpaque(false);
         btEncerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEncerrarActionPerformed(evt);
+            }
+        });
+
+        btLimpar.setBackground(new java.awt.Color(204, 255, 204));
+        btLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\icons8_broom_32px_1.png")); // NOI18N
+        btLimpar.setBorderPainted(false);
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        btMenu.setBackground(new java.awt.Color(232, 255, 232));
+        btMenu.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\icons8_menu_32px.png")); // NOI18N
+        btMenu.setBorderPainted(false);
+        btMenu.setOpaque(false);
+        btMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMenuActionPerformed(evt);
+            }
+        });
+
+        btExcluir.setBackground(new java.awt.Color(255, 204, 204));
+        btExcluir.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\x_106506.png")); // NOI18N
+        btExcluir.setBorderPainted(false);
+        btExcluir.setOpaque(false);
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
             }
         });
 
@@ -257,45 +316,28 @@ public class JGui extends javax.swing.JFrame {
         pnOpcoes.setLayout(pnOpcoesLayout);
         pnOpcoesLayout.setHorizontalGroup(
             pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnOpcoesLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbNomeProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbVersao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btEncerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(pnOpcoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btDescanso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btCronometro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btPomodoro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btPausa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btNovaTarefa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Notas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(btMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btEncerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btPausa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(btLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         pnOpcoesLayout.setVerticalGroup(
             pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnOpcoesLayout.createSequentialGroup()
-                .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbNomeProjeto)
-                    .addComponent(btEncerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbVersao, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(btPomodoro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btCronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btPausa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btNovaTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Notas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnOpcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btEncerrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76)
+                .addComponent(btPausa)
+                .addGap(18, 18, 18)
+                .addComponent(btExcluir)
+                .addGap(18, 18, 18)
+                .addComponent(btLimpar)
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -303,40 +345,113 @@ public class JGui extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(pnOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
-            .addComponent(pnOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 447, Short.MAX_VALUE)
+                    .addComponent(pnOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        setSize(new java.awt.Dimension(470, 343));
+        setSize(new java.awt.Dimension(335, 447));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     
-    
-    private void btNovaTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovaTarefaActionPerformed
-        adicionarTarefa();
         
-    }//GEN-LAST:event_btNovaTarefaActionPerformed
-    
-    private void NotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotasActionPerformed
-       Notas anotacoes = new Notas();
-       anotacoes.setVisible(true);
-       
-         
-    }//GEN-LAST:event_NotasActionPerformed
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+       int x = evt.getXOnScreen();
+       int y = evt.getYOnScreen();
+        
+       this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_formMouseDragged
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+        
+    }//GEN-LAST:event_formMousePressed
+
+    private void btDescansoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDescansoActionPerformed
+        cronometroStatus = false;
+        pomodoroStatus = false;
+        descansoStatus = true;
+        descanso = new Descanso();
+        descanso.iniciar();
+        d = new Thread( () -> {
+            while (descansoStatus) {
+                lbContadorTempo.setText(descanso.getTempo());
+            }
+
+        });
+        d.start();
+        btPomodoro.setEnabled( false );
+        btCronometro.setEnabled( false );
+    }//GEN-LAST:event_btDescansoActionPerformed
+
+    private void btPausaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPausaActionPerformed
+
+        if (pomodoroStatus) {
+            pomodoroStatus = false;
+            pomodoro = new Pomodoro();
+            pomodoro.parar();
+            p.interrupt();
+            btCronometro.setEnabled( true );
+            btPomodoro.setEnabled ( true );
+            btDescanso.setEnabled ( true );
+
+        }
+
+        if (cronometroStatus) {
+            cronometroStatus = false;
+            cronometro = new Cronometro();
+            cronometro.parar();
+            c.interrupt();
+            btCronometro.setEnabled( true );
+            btPomodoro.setEnabled ( true );
+            btDescanso.setEnabled ( true );
+
+        }
+
+        if (descansoStatus) {
+            descansoStatus = false;
+            descanso = new Descanso();
+            descanso.parar();
+            d.interrupt();
+            btCronometro.setEnabled( true );
+            btPomodoro.setEnabled ( true );
+            btDescanso.setEnabled ( true);
+
+        }
+
+        lbContadorTempo.setText("00:00:00");
+    }//GEN-LAST:event_btPausaActionPerformed
+
+    private void btCronometroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCronometroActionPerformed
+        cronometroStatus = true;
+        pomodoroStatus = false;
+        cronometro = new Cronometro();
+        cronometro.iniciar();
+        c = new Thread(() ->{
+            while(cronometroStatus){ //status true quando aperta o botão iniciar
+                lbContadorTempo.setText(cronometro.getTempo()); // altera o JLabel
+            }
+        });
+        c.start();
+        btPomodoro.setEnabled( false );
+    }//GEN-LAST:event_btCronometroActionPerformed
 
     private void btPomodoroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPomodoroActionPerformed
         pomodoroStatus = true;
         cronometroStatus = false;
-        
         pomodoro = new Pomodoro();
         pomodoro.iniciar();
-        /* 
+        /*
         * Da linha 346 a 353 não editar, favor
         * Só deus sabe como isso está funcionando
         */
@@ -352,139 +467,81 @@ public class JGui extends javax.swing.JFrame {
         p.start();
         btCronometro.setEnabled( false );
         btDescanso.setEnabled ( false );
-        
     }//GEN-LAST:event_btPomodoroActionPerformed
 
-    private void btPausaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPausaActionPerformed
-        
-        if (pomodoroStatus) {    
-            pomodoroStatus = false;
-            pomodoro = new Pomodoro();
-            pomodoro.parar();
-            p.interrupt();
-            btCronometro.setEnabled( true );
-            btPomodoro.setEnabled ( true );
-            btDescanso.setEnabled ( true );
-            
-        }
-        
-        if (cronometroStatus) {
-            cronometroStatus = false;
-            cronometro = new Cronometro();
-            cronometro.parar();
-            c.interrupt();
-            btCronometro.setEnabled( true );
-            btPomodoro.setEnabled ( true );
-            
-        }
-        
-        if (descansoStatus) {
-            descansoStatus = false;
-            descanso = new Descanso();
-            descanso.parar();
-            d.interrupt();
-            btCronometro.setEnabled( true );
-            btPomodoro.setEnabled ( true );
-            btDescanso.setEnabled ( true);
-            
-        }
-        
-        lbContadorTempo.setText("00:00:00");
-        
-    }//GEN-LAST:event_btPausaActionPerformed
-
-    private void btCronometroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCronometroActionPerformed
-        cronometroStatus = true;
-        pomodoroStatus = false;
-        cronometro = new Cronometro();
-        cronometro.iniciar();
-        c = new Thread(() ->{
-            while(cronometroStatus){ //status true quando aperta o botão iniciar
-                lbContadorTempo.setText(cronometro.getTempo()); // altera o JLabel
-            }
-        });
-        c.start();
-        btPomodoro.setEnabled( false );
-        
-        
-    }//GEN-LAST:event_btCronometroActionPerformed
-
-    private void btDescansoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDescansoActionPerformed
-        cronometroStatus = false;
-        pomodoroStatus = false;
-        descansoStatus = true;
-        descanso = new Descanso();
-        descanso.iniciar();
-        d = new Thread( () -> {
-           while (descansoStatus) {
-               lbContadorTempo.setText(descanso.getTempo());
-           }
-            
-        });
-        d.start();
-        btPomodoro.setEnabled( false );
-        btCronometro.setEnabled( false );
-    }//GEN-LAST:event_btDescansoActionPerformed
-
     private void btEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEncerrarActionPerformed
-       System.exit(0);
-        
+        System.exit(0);
     }//GEN-LAST:event_btEncerrarActionPerformed
 
-    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-       int x = evt.getXOnScreen();
-       int y = evt.getYOnScreen();
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        model.clear();
+        jlAtividades.setModel(model);
+        btLimpar.setOpaque(false);
         
-       this.setLocation(x - xMouse, y - yMouse);
-    }//GEN-LAST:event_formMouseDragged
+    }//GEN-LAST:event_btLimparActionPerformed
 
-    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        xMouse = evt.getX();
-        yMouse = evt.getY();
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        // Exclui o item selecionado
+        model.remove(jlAtividades.getSelectedIndex());
+        jlAtividades.setModel(model);
         
-    }//GEN-LAST:event_formMousePressed
-
-     
+    }//GEN-LAST:event_btExcluirActionPerformed
+    /**
+     * Após clicar duas vezes em alguma parte branca do pnTarefas chama o metodo
+     * adicionarTarefas()
+     */
     private void pnTarefasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnTarefasMouseClicked
         if (evt.getClickCount() == 2 ) {
             adicionarTarefa();
-            System.out.println("Clicou no painel");
 
         }
-        
     }//GEN-LAST:event_pnTarefasMouseClicked
-
-    private void lbTarefaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbTarefaMouseClicked
-        if (evt.getClickCount() == 1 ) {
-            JLabel label = (JLabel) evt.getSource();
-            label.setBackground(new java.awt.Color(204, 255, 204));
-            ContadorTempo cTempo = new ContadorTempo();
+    /**
+     * Em seguida de dois cliques em algum item do JList marcar a atividade como
+     * concluida.
+     */
+    private void jlAtividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlAtividadesMouseClicked
+        if (evt.getClickCount() == 2) {
+            cTempo = new ContadorTempo();
             cTempo.parar();
-            label.setText(cTempo.parar()+" | "+criandoTarefa);
-            System.out.println("Clicou na lbTarefa");
+            int index = jlAtividades.locationToIndex(evt.getPoint());
+            model.addElement(cTempo.parar()+" | "+jlAtividades.getSelectedValue().toString());
+            model.remove(jlAtividades.getSelectedIndex());
+            jlAtividades.setModel(model);
 
-        }
-    }//GEN-LAST:event_lbTarefaMouseClicked
+        }      
+    }//GEN-LAST:event_jlAtividadesMouseClicked
+     /**
+     * Método que ao clicar em qual quer lugar do pnAtividades chama adicionarTarefa()
+     */
+    private void pnPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnPrincipalMouseClicked
+       adicionarTarefa();
+    }//GEN-LAST:event_pnPrincipalMouseClicked
+    /**
+     * No futuro este botão servirá para exibir um menu com opções avançadas.
+     */
+    private void btMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMenuActionPerformed
+        JOptionPane.showMessageDialog(null,"Em breve","Painel avançado",JOptionPane.ERROR_MESSAGE);
+        
+        
+    }//GEN-LAST:event_btMenuActionPerformed
 
-    // Adiciona a tarefa ao painel
+     
+    /**
+     * Se a variável criandoTarefa alimentada pelo JOptionPane não for vazia
+     * adiciona um item a lista
+     */
     public void adicionarTarefa() {
         criandoTarefa = JOptionPane.showInputDialog("Qual atividade de seja adicionar?");
-        if (criandoTarefa != null) {
-            Periodoo periodo = new Periodoo();
-            JLabel lbTarefa = new JLabel();
-            NovaTarefa nTarefa = new NovaTarefa();
-            lbTarefa.setText(periodo.tempoAgora()+" | "+nTarefa.criarTarefa(criandoTarefa));
-            lbTarefa.setFont(new java.awt.Font("Tahoma", 0, 14));
-            lbTarefa.setOpaque(true);
-            lbTarefa.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                lbTarefaMouseClicked(evt);
-            }
-            });
-            pnTarefas.add(lbTarefa);
-            pack();
-            ContadorTempo cTempo = new ContadorTempo();
+        if (!criandoTarefa.isEmpty()) {
+            periodo = new Periodoo();
+            cTempo = new ContadorTempo();
             cTempo.comecar();
+            model.addElement(periodo.tempoAgora()+" "+criandoTarefa);
+            jlAtividades.setModel(model);
+            pack();
+            
+            
         
         }
         
@@ -528,19 +585,20 @@ public class JGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Notas;
     private javax.swing.JButton btCronometro;
     private javax.swing.JButton btDescanso;
     private javax.swing.JButton btEncerrar;
-    private javax.swing.JButton btNovaTarefa;
+    private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btMenu;
     private javax.swing.JButton btPausa;
     private javax.swing.JButton btPomodoro;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> jlAtividades;
     private javax.swing.JLabel lbContadorTempo;
     private javax.swing.JLabel lbNomeProjeto;
     private javax.swing.JLabel lbSugestao;
     private javax.swing.JLabel lbTagDica;
-    private javax.swing.JLabel lbTarefa;
-    private javax.swing.JLabel lbVersao;
     private javax.swing.JPanel pnDicasSugestoes;
     private javax.swing.JPanel pnOpcoes;
     private javax.swing.JPanel pnPrincipal;
