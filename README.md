@@ -20,3 +20,5 @@ https://gist.github.com/eltonea/a717e3c786686b674f4ebe2475ca3313<br>
 https://cubos.io/blog/que-tal-comecar-a-usar-commits-semanticos/<br>
 https://pt.stackoverflow.com/questions/287871/como-fazer-o-versionamento-sem%C3%A2ntico-semver-com-o-git<br>
 https://medium.com/@rafael.oliveira/como-escrever-boas-mensagens-de-commit-9f8fe852155a<br>
+
+!(Demo)[https://github.com/JamersonWalderson/jpomodoro/blob/master/gif-demo.gif]
