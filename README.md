@@ -1,4 +1,5 @@
 # JPomodoro
+![Demo](https://github.com/JamersonWalderson/jpomodoro/blob/master/gif-demo.gif)
 
 Pomodoro em italiano significa tomate, e é uma técnica criada na década de 1980
 pelo italiano Francesco Cirillo, que teve a ideia de usar cronômetros de cozinha para dividir
@@ -21,4 +22,4 @@ https://cubos.io/blog/que-tal-comecar-a-usar-commits-semanticos/<br>
 https://pt.stackoverflow.com/questions/287871/como-fazer-o-versionamento-sem%C3%A2ntico-semver-com-o-git<br>
 https://medium.com/@rafael.oliveira/como-escrever-boas-mensagens-de-commit-9f8fe852155a<br>
 
-![Demo](https://github.com/JamersonWalderson/jpomodoro/blob/master/gif-demo.gif)
+
