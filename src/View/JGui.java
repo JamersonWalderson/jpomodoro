@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 /**
  * Javadoc
@@ -40,6 +41,7 @@ public class JGui extends javax.swing.JFrame {
     Thread p = null;
     Thread c = null;
     Thread d = null;
+    // private JSlider sliderDescanso;
     
     public JGui() {
         initComponents();
@@ -52,22 +54,25 @@ public class JGui extends javax.swing.JFrame {
         pnPrincipal = new javax.swing.JPanel();
         pnVerTempo = new javax.swing.JPanel();
         lbContadorTempo = new javax.swing.JLabel();
-        lbNomeProjeto = new javax.swing.JLabel();
+        btEncerrar = new javax.swing.JButton();
         pnTarefas = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jlAtividades = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        btDescanso = new javax.swing.JButton();
+        sliderDescanso = new javax.swing.JSlider();
         pnDicasSugestoes = new javax.swing.JPanel();
         lbTagDica = new javax.swing.JLabel();
         lbSugestao = new javax.swing.JLabel();
-        btPomodoro = new javax.swing.JButton();
-        btCronometro = new javax.swing.JButton();
-        btDescanso = new javax.swing.JButton();
         pnOpcoes = new javax.swing.JPanel();
         btPausa = new javax.swing.JButton();
-        btEncerrar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btMenu = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        lbNomeProjeto = new javax.swing.JLabel();
+        btPomodoro = new javax.swing.JButton();
+        btCronometro = new javax.swing.JButton();
+        brNovaAtividade = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -87,11 +92,6 @@ public class JGui extends javax.swing.JFrame {
 
         pnPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         pnPrincipal.setPreferredSize(new java.awt.Dimension(287, 274));
-        pnPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnPrincipalMouseClicked(evt);
-            }
-        });
 
         pnVerTempo.setBackground(new java.awt.Color(255, 255, 255));
         pnVerTempo.setPreferredSize(new java.awt.Dimension(177, 221));
@@ -102,7 +102,16 @@ public class JGui extends javax.swing.JFrame {
         lbContadorTempo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbContadorTempo.setText("00:00:00");
 
-        lbNomeProjeto.setText("JPomodoro v2019.11.01-1");
+        btEncerrar.setBackground(new java.awt.Color(255, 153, 153));
+        btEncerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btEncerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_106506.png"))); // NOI18N
+        btEncerrar.setBorderPainted(false);
+        btEncerrar.setOpaque(false);
+        btEncerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEncerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnVerTempoLayout = new javax.swing.GroupLayout(pnVerTempo);
         pnVerTempo.setLayout(pnVerTempoLayout);
@@ -110,31 +119,22 @@ public class JGui extends javax.swing.JFrame {
             pnVerTempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnVerTempoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnVerTempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnVerTempoLayout.createSequentialGroup()
-                        .addComponent(lbNomeProjeto)
-                        .addGap(27, 27, 27))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnVerTempoLayout.createSequentialGroup()
-                        .addComponent(lbContadorTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71))))
+                .addComponent(lbContadorTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93)
+                .addComponent(btEncerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnVerTempoLayout.setVerticalGroup(
             pnVerTempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnVerTempoLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(lbNomeProjeto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(lbContadorTempo))
+                .addComponent(btEncerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(35, 35, 35))
+            .addGroup(pnVerTempoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbContadorTempo)
+                .addContainerGap())
         );
 
         pnTarefas.setBackground(new java.awt.Color(255, 255, 255));
-        pnTarefas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnTarefasMouseClicked(evt);
-            }
-        });
-
-        jScrollPane1.setBorder(null);
 
         jlAtividades.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "1 - Pense nas atividades que serão realizadas.", "2 - Clique no botão verde.", "3 - Clique na parte branca.", "4 - Adicione suas tarefas.", "5 - Escolha Pomodoro ou Cronometro.", "6 - Evite distrações, e foque em concluir a tarefa.", "7 - Quando concluir clique duas vezes sobre a tarefa.", "8 - Após 25 minutos clique em descanso.", "9 - Aproveite o tempo para relaxar.", "10 - Depois dos 5 minutos clique novamente em Pomodoro.", "11 - Parabéns você concluiu um ciclo." };
@@ -148,20 +148,58 @@ public class JGui extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jlAtividades);
 
+        jLabel1.setText("jamersonwalderson@gmail.com");
+
+        btDescanso.setBackground(new java.awt.Color(204, 204, 255));
+        btDescanso.setForeground(new java.awt.Color(255, 255, 255));
+        btDescanso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/single-couch.png"))); // NOI18N
+        btDescanso.setText("Pausa");
+        btDescanso.setBorderPainted(false);
+        btDescanso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDescansoActionPerformed(evt);
+            }
+        });
+
+        sliderDescanso.setBackground(new java.awt.Color(255, 255, 255));
+        sliderDescanso.setMajorTickSpacing(5);
+        sliderDescanso.setMaximum(30);
+        sliderDescanso.setMinimum(5);
+        sliderDescanso.setPaintLabels(true);
+        sliderDescanso.setPaintTicks(true);
+        sliderDescanso.setToolTipText("");
+        sliderDescanso.setValue(5);
+        sliderDescanso.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderDescansoStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnTarefasLayout = new javax.swing.GroupLayout(pnTarefas);
         pnTarefas.setLayout(pnTarefasLayout);
         pnTarefasLayout.setHorizontalGroup(
             pnTarefasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTarefasLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(pnTarefasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnTarefasLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnTarefasLayout.createSequentialGroup()
+                        .addComponent(sliderDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))))
         );
         pnTarefasLayout.setVerticalGroup(
             pnTarefasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTarefasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(pnTarefasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sliderDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pnDicasSugestoes.setBackground(new java.awt.Color(204, 204, 204));
@@ -192,9 +230,87 @@ public class JGui extends javax.swing.JFrame {
                 .addComponent(lbTagDica, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout pnPrincipalLayout = new javax.swing.GroupLayout(pnPrincipal);
+        pnPrincipal.setLayout(pnPrincipalLayout);
+        pnPrincipalLayout.setHorizontalGroup(
+            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnPrincipalLayout.createSequentialGroup()
+                .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(pnVerTempo, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+            .addGroup(pnPrincipalLayout.createSequentialGroup()
+                .addComponent(pnTarefas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        pnPrincipalLayout.setVerticalGroup(
+            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnPrincipalLayout.createSequentialGroup()
+                .addComponent(pnVerTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(pnTarefas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        pnOpcoes.setBackground(new java.awt.Color(102, 102, 255));
+
+        btPausa.setBackground(new java.awt.Color(255, 204, 204));
+        btPausa.setForeground(new java.awt.Color(204, 204, 255));
+        btPausa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1486348534-music-pause-stop-control-play_80459.png"))); // NOI18N
+        btPausa.setText("Parar");
+        btPausa.setBorderPainted(false);
+        btPausa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btPausa.setOpaque(false);
+        btPausa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPausaActionPerformed(evt);
+            }
+        });
+
+        btLimpar.setBackground(new java.awt.Color(204, 255, 204));
+        btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_broom_32px_1.png"))); // NOI18N
+        btLimpar.setText("Limpar");
+        btLimpar.setBorderPainted(false);
+        btLimpar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        btMenu.setBackground(new java.awt.Color(232, 255, 232));
+        btMenu.setBorderPainted(false);
+        btMenu.setOpaque(false);
+        btMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMenuActionPerformed(evt);
+            }
+        });
+
+        btExcluir.setBackground(new java.awt.Color(255, 204, 204));
+        btExcluir.setForeground(new java.awt.Color(204, 204, 255));
+        btExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-excluir-26.png"))); // NOI18N
+        btExcluir.setText("Deletar");
+        btExcluir.setBorderPainted(false);
+        btExcluir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btExcluir.setOpaque(false);
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
+        lbNomeProjeto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbNomeProjeto.setForeground(new java.awt.Color(204, 204, 255));
+        lbNomeProjeto.setText("JPomodoro");
+        lbNomeProjeto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         btPomodoro.setBackground(new java.awt.Color(204, 255, 204));
-        btPomodoro.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\apple.png")); // NOI18N
+        btPomodoro.setForeground(new java.awt.Color(204, 204, 255));
+        btPomodoro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apple.png"))); // NOI18N
+        btPomodoro.setText("Pomodoro");
         btPomodoro.setBorderPainted(false);
+        btPomodoro.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btPomodoro.setOpaque(false);
         btPomodoro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,8 +319,11 @@ public class JGui extends javax.swing.JFrame {
         });
 
         btCronometro.setBackground(new java.awt.Color(204, 255, 204));
-        btCronometro.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\ico-cronometro.png")); // NOI18N
+        btCronometro.setForeground(new java.awt.Color(204, 204, 255));
+        btCronometro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ico-cronometro.png"))); // NOI18N
+        btCronometro.setText("Cronômetro");
         btCronometro.setBorderPainted(false);
+        btCronometro.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btCronometro.setMaximumSize(new java.awt.Dimension(81, 23));
         btCronometro.setMinimumSize(new java.awt.Dimension(81, 23));
         btCronometro.setOpaque(false);
@@ -215,100 +334,15 @@ public class JGui extends javax.swing.JFrame {
             }
         });
 
-        btDescanso.setBackground(new java.awt.Color(232, 255, 232));
-        btDescanso.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\single-couch.png")); // NOI18N
-        btDescanso.setBorderPainted(false);
-        btDescanso.setOpaque(false);
-        btDescanso.addActionListener(new java.awt.event.ActionListener() {
+        brNovaAtividade.setBackground(new java.awt.Color(255, 204, 204));
+        brNovaAtividade.setForeground(new java.awt.Color(204, 204, 255));
+        brNovaAtividade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mais.png"))); // NOI18N
+        brNovaAtividade.setText("Nova atividade");
+        brNovaAtividade.setBorderPainted(false);
+        brNovaAtividade.setOpaque(false);
+        brNovaAtividade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btDescansoActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnPrincipalLayout = new javax.swing.GroupLayout(pnPrincipal);
-        pnPrincipal.setLayout(pnPrincipalLayout);
-        pnPrincipalLayout.setHorizontalGroup(
-            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pnPrincipalLayout.createSequentialGroup()
-                .addGroup(pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnPrincipalLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(btPomodoro, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btCronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)))
-                .addContainerGap())
-            .addComponent(pnVerTempo, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-        );
-        pnPrincipalLayout.setVerticalGroup(
-            pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnPrincipalLayout.createSequentialGroup()
-                .addComponent(pnVerTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnDicasSugestoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btPomodoro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btCronometro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btDescanso, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(12, 12, 12)
-                .addComponent(pnTarefas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pnOpcoes.setBackground(new java.awt.Color(102, 102, 255));
-
-        btPausa.setBackground(new java.awt.Color(255, 204, 204));
-        btPausa.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\1486348534-music-pause-stop-control-play_80459.png")); // NOI18N
-        btPausa.setBorderPainted(false);
-        btPausa.setOpaque(false);
-        btPausa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPausaActionPerformed(evt);
-            }
-        });
-
-        btEncerrar.setBackground(new java.awt.Color(255, 153, 153));
-        btEncerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btEncerrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\Nova Pasta\\icons8_delete_sign_32px.png")); // NOI18N
-        btEncerrar.setBorderPainted(false);
-        btEncerrar.setOpaque(false);
-        btEncerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btEncerrarActionPerformed(evt);
-            }
-        });
-
-        btLimpar.setBackground(new java.awt.Color(204, 255, 204));
-        btLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\icons8_broom_32px_1.png")); // NOI18N
-        btLimpar.setBorderPainted(false);
-        btLimpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btLimparActionPerformed(evt);
-            }
-        });
-
-        btMenu.setBackground(new java.awt.Color(232, 255, 232));
-        btMenu.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\icons8_menu_32px.png")); // NOI18N
-        btMenu.setBorderPainted(false);
-        btMenu.setOpaque(false);
-        btMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btMenuActionPerformed(evt);
-            }
-        });
-
-        btExcluir.setBackground(new java.awt.Color(255, 204, 204));
-        btExcluir.setIcon(new javax.swing.ImageIcon("C:\\Users\\jamer\\Desktop\\jpomodoro\\img\\x_106506.png")); // NOI18N
-        btExcluir.setBorderPainted(false);
-        btExcluir.setOpaque(false);
-        btExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btExcluirActionPerformed(evt);
+                brNovaAtividadeActionPerformed(evt);
             }
         });
 
@@ -316,28 +350,42 @@ public class JGui extends javax.swing.JFrame {
         pnOpcoes.setLayout(pnOpcoesLayout);
         pnOpcoesLayout.setHorizontalGroup(
             pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(btMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btPausa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btCronometro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(brNovaAtividade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+            .addComponent(btExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnOpcoesLayout.createSequentialGroup()
                 .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btEncerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btPausa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addComponent(btLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btPomodoro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnOpcoesLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbNomeProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(pnOpcoesLayout.createSequentialGroup()
+                                .addComponent(btMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         pnOpcoesLayout.setVerticalGroup(
             pnOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnOpcoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btEncerrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbNomeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addComponent(btMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
+                .addGap(8, 8, 8)
+                .addComponent(brNovaAtividade)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(btPomodoro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btCronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btPausa)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btExcluir)
-                .addGap(18, 18, 18)
+                .addGap(69, 69, 69)
                 .addComponent(btLimpar)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addGap(56, 56, 56))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -345,21 +393,20 @@ public class JGui extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addComponent(pnOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 447, Short.MAX_VALUE)
-                    .addComponent(pnOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(pnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        setSize(new java.awt.Dimension(335, 447));
+        setSize(new java.awt.Dimension(531, 442));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     
@@ -370,7 +417,8 @@ public class JGui extends javax.swing.JFrame {
         
        this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_formMouseDragged
-
+    
+    // Método usado para arrastar a tela 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         xMouse = evt.getX();
         yMouse = evt.getY();
@@ -401,7 +449,7 @@ public class JGui extends javax.swing.JFrame {
             pomodoro = new Pomodoro();
             pomodoro.parar();
             p.interrupt();
-            btCronometro.setEnabled( true );
+            btCronometro.setEnabled ( true );
             btPomodoro.setEnabled ( true );
             btDescanso.setEnabled ( true );
 
@@ -412,7 +460,7 @@ public class JGui extends javax.swing.JFrame {
             cronometro = new Cronometro();
             cronometro.parar();
             c.interrupt();
-            btCronometro.setEnabled( true );
+            btCronometro.setEnabled ( true );
             btPomodoro.setEnabled ( true );
             btDescanso.setEnabled ( true );
 
@@ -423,7 +471,7 @@ public class JGui extends javax.swing.JFrame {
             descanso = new Descanso();
             descanso.parar();
             d.interrupt();
-            btCronometro.setEnabled( true );
+            btCronometro.setEnabled ( true );
             btPomodoro.setEnabled ( true );
             btDescanso.setEnabled ( true);
 
@@ -486,17 +534,8 @@ public class JGui extends javax.swing.JFrame {
         jlAtividades.setModel(model);
         
     }//GEN-LAST:event_btExcluirActionPerformed
-    /**
-     * Após clicar duas vezes em alguma parte branca do pnTarefas chama o metodo
-     * adicionarTarefas()
-     */
-    private void pnTarefasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnTarefasMouseClicked
-        if (evt.getClickCount() == 2 ) {
-            adicionarTarefa();
 
-        }
-    }//GEN-LAST:event_pnTarefasMouseClicked
-    /**
+   /**
      * Em seguida de dois cliques em algum item do JList marcar a atividade como
      * concluida.
      */
@@ -511,13 +550,8 @@ public class JGui extends javax.swing.JFrame {
 
         }      
     }//GEN-LAST:event_jlAtividadesMouseClicked
-     /**
-     * Método que ao clicar em qual quer lugar do pnAtividades chama adicionarTarefa()
-     */
-    private void pnPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnPrincipalMouseClicked
-       adicionarTarefa();
-    }//GEN-LAST:event_pnPrincipalMouseClicked
-    /**
+
+   /**
      * No futuro este botão servirá para exibir um menu com opções avançadas.
      */
     private void btMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMenuActionPerformed
@@ -525,6 +559,15 @@ public class JGui extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btMenuActionPerformed
+
+    private void sliderDescansoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderDescansoStateChanged
+        lbContadorTempo.setText(sliderDescanso.getValue() + ":00");
+    }//GEN-LAST:event_sliderDescansoStateChanged
+
+    private void brNovaAtividadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brNovaAtividadeActionPerformed
+        adicionarTarefa();
+        
+    }//GEN-LAST:event_brNovaAtividadeActionPerformed
 
      
     /**
@@ -585,6 +628,7 @@ public class JGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton brNovaAtividade;
     private javax.swing.JButton btCronometro;
     private javax.swing.JButton btDescanso;
     private javax.swing.JButton btEncerrar;
@@ -593,6 +637,7 @@ public class JGui extends javax.swing.JFrame {
     private javax.swing.JButton btMenu;
     private javax.swing.JButton btPausa;
     private javax.swing.JButton btPomodoro;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> jlAtividades;
     private javax.swing.JLabel lbContadorTempo;
@@ -604,5 +649,6 @@ public class JGui extends javax.swing.JFrame {
     private javax.swing.JPanel pnPrincipal;
     private javax.swing.JPanel pnTarefas;
     private javax.swing.JPanel pnVerTempo;
+    private javax.swing.JSlider sliderDescanso;
     // End of variables declaration//GEN-END:variables
 }

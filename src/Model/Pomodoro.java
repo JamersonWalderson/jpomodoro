@@ -10,8 +10,8 @@ import java.util.TimerTask;
  */
 public class Pomodoro {
     private Timer timer = new Timer();
-    private int segundos = 1500; // MINUTOS *60
-    private int minutos = 25; // DEIXA 2
+    private int segundos = 120; // MINUTOS *60
+    private int minutos = 1; // Colocar 1 minuto a menos
     private static boolean ligado = true;
     private boolean descanso = false;
     
@@ -25,7 +25,7 @@ public class Pomodoro {
         timer.scheduleAtFixedRate(new TimerTask() {
           public void run() {
                 if (ligado) {
-                    segundos--;
+                    if (minutos > 0 || segundos > 0) segundos--;
                     int resto = segundos %60;
                     if (resto == 0 && minutos != 0) {
                         minutos--;
@@ -34,8 +34,6 @@ public class Pomodoro {
                     if (minutos == 0 && segundos == 0) {
                             timer.cancel();
                             timer.purge();
-                            //System.out.println("SAPORRA");
-                            //descanso = true; // teste
                             if (descanso == false) {
                                 descanso = true;
                                 
