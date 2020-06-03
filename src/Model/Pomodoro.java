@@ -10,8 +10,8 @@ import java.util.TimerTask;
  */
 public class Pomodoro {
     private Timer timer = new Timer();
-    private int segundos = 120; // MINUTOS *60
-    private int minutos = 1; // Colocar 1 minuto a menos
+    private int segundos = 1500; // MINUTOS *60
+    private int minutos = 24; // Colocar 1 minuto a menos
     private static boolean ligado = true;
     private boolean descanso = false;
     
